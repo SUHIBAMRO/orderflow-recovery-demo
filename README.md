@@ -8,6 +8,12 @@ Open the public sandbox: **https://orderflow-demo-production.up.railway.app/**
 
 No installation or access token is required. English is the default language; select **NL** in the header for Dutch. All customers, policies, payments, provider responses, and refunds are synthetic. Never enter real personal information.
 
+## Demo video
+
+[▶ Watch the 45-second narrated English demo](docs/OrderFlow-Recovery-English-Demo.mp4)
+
+The video demonstrates the scenario lab, owner-data mismatch detection, safe operator correction, workflow resumption, audit evidence, and the English/Dutch language switch.
+
 ## What is implemented
 
 - Persistent workflow state and append-only application audit events
