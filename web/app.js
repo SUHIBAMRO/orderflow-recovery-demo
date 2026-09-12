@@ -100,3 +100,59 @@ async function boot(){
  }catch(error){token='';$('#login-dialog').showModal();}
 }
 boot();
+
+// Lightweight client-side localization. English remains the source language.
+const nl = {
+ 'RECOVERY WORKSPACE':'HERSTELWERKRUIMTE','OPERATIONS':'OPERATIES','Order queue':'Orderwachtrij','Scenario lab':'Scenariolab','Recovery rules':'Herstelregels',
+ 'SAFE DEMONSTRATION':'VEILIGE DEMONSTRATIE','Synthetic customers.':'Synthetische klanten.','No real policies or money.':'Geen echte polissen of geld.',
+ 'Independent prototype.':'Onafhankelijk prototype.','Not affiliated with BJAK or JPJ.':'Niet verbonden aan BJAK of JPJ.','Not signed in':'Niet ingelogd',
+ 'Access token required':'Toegangstoken vereist','Public demo':'Openbare demo','synthetic sandbox':'synthetische sandbox','Sign out':'Uitloggen',
+ 'Operations':'Operaties','Disconnected':'Niet verbonden','Connected':'Verbonden','Connection issue':'Verbindingsprobleem','SANDBOX':'TESTOMGEVING',
+ 'EXCEPTION MANAGEMENT':'UITZONDERINGSBEHEER','Keep every order moving.':'Houd elke bestelling in beweging.','Find the blocker. Take the next safe action.':'Vind de blokkade. Neem de volgende veilige actie.',
+ '＋ Create test order':'＋ Testbestelling maken','Open orders':'Open bestellingen','Needs intervention':'Interventie vereist','Automatic retries':'Automatische pogingen','Resolved':'Afgerond',
+ 'Across the loaded queue':'In de geladen wachtrij','Waiting on a person':'Wacht op een medewerker','Scheduled, with backoff':'Gepland, met wachttijd','Completed or roadtax refunded':'Voltooid of wegenbelasting terugbetaald',
+ 'Refresh ↻':'Vernieuwen ↻','Search order or customer':'Zoek bestelling of klant','Filter status':'Filter status','All statuses':'Alle statussen','Needs action':'Actie vereist','Retrying':'Opnieuw proberen','Completed':'Voltooid','Roadtax refunded':'Wegenbelasting terugbetaald',
+ 'Your queue is clear':'Uw wachtrij is leeg','Create a test order to run a recovery scenario.':'Maak een testbestelling om een herstelscenario uit te voeren.','Updates every 2 seconds':'Wordt elke 2 seconden bijgewerkt',
+ 'Every exception has a next step.':'Elke uitzondering heeft een volgende stap.','Select an order to inspect its progress, evidence and recovery actions.':'Selecteer een bestelling om voortgang, bewijs en herstelacties te bekijken.',
+ 'Payment':'Betaling','Policy':'Polis','Roadtax':'Wegenbelasting','Evidence before action.':'Bewijs vóór actie.','CONTROLLED FAILURE INJECTION':'GECONTROLEERDE FOUTSIMULATIE',
+ 'Every scenario creates a persisted order and calls synthetic provider APIs.':'Elk scenario maakt een opgeslagen bestelling en roept synthetische provider-API’s aan.',
+ 'Clean completion':'Probleemloze voltooiing','Payment, policy and roadtax all succeed.':'Betaling, polis en wegenbelasting slagen allemaal.','Missing vehicle photos':'Ontbrekende voertuigfoto’s',
+ 'Underwriting requests photos. Confirm synthetic receipt to continue.':'Acceptatie vraagt om foto’s. Bevestig de synthetische ontvangst om door te gaan.','Owner data mismatch':'Eigenaarsgegevens komen niet overeen',
+ 'The roadtax request stops until an operator corrects the data.':'De wegenbelastingaanvraag stopt totdat een medewerker de gegevens corrigeert.','Blacklist → refund':'Blokkadelijst → terugbetaling',
+ 'A roadtax-only refund requires explicit supervisor approval.':'Een terugbetaling van alleen wegenbelasting vereist expliciete goedkeuring van een supervisor.','Temporary insurer outage':'Tijdelijke storing bij verzekeraar',
+ 'Two transient failures, then recovery on the third attempt.':'Twee tijdelijke fouten, daarna herstel bij de derde poging.','Lost acknowledgement':'Ontbrekende ontvangstbevestiging',
+ 'The policy is issued before timeout. A retry retrieves the same policy.':'De polis wordt vóór de time-out uitgegeven. Een nieuwe poging haalt dezelfde polis op.','Retry budget exhausted':'Maximum aantal pogingen bereikt',
+ 'Three failed attempts route the case to manual review.':'Na drie mislukte pogingen gaat de zaak naar handmatige beoordeling.','Run scenario →':'Scenario uitvoeren →','What is real here?':'Wat is hier echt?',
+ 'ASSISTIVE ONLY':'ALLEEN ONDERSTEUNEND','Response interpretation':'Interpretatie van reacties','A deterministic text-classification baseline. Not an LLM and never an action executor.':'Een deterministische basis voor tekstclassificatie. Geen LLM en nooit een uitvoerder van acties.',
+ 'Provider message':'Providerbericht','Classify message':'Bericht classificeren','POLICY VERSION • DEMO-1.0':'BELEIDSVERSIE • DEMO-1.0','Explicit rules. Bounded retries. Human approval for refunds.':'Expliciete regels. Begrensde pogingen. Menselijke goedkeuring voor terugbetalingen.',
+ 'Provider outcome':'Providerresultaat','Recovery path':'Herstelpad','Retry policy':'Pogingenbeleid','Prototype boundaries':'Grenzen van het prototype','Welcome to OrderFlow.':'Welkom bij OrderFlow.',
+ 'OPERATIONS ACCESS':'TOEGANG VOOR OPERATIES','Access token':'Toegangstoken','Open workspace →':'Werkruimte openen →','SYNTHETIC ORDER':'SYNTHETISCHE BESTELLING','Create a test order':'Testbestelling maken',
+ 'Failure scenario':'Foutscenario','Synthetic customer label':'Synthetisch klantlabel','Vehicle label':'Voertuiglabel','Synthetic identity: last 4':'Synthetische identiteit: laatste 4','Roadtax amount (MYR)':'Wegenbelasting (MYR)',
+ 'No real customer information. Payment and policy issuance are simulated.':'Geen echte klantgegevens. Betaling en polisuitgifte worden gesimuleerd.','Create & run workflow →':'Maken en workflow uitvoeren →',
+ 'AUDITED OPERATOR ACTION':'GECONTROLEERDE MEDEWERKERSACTIE','Resolve order':'Bestelling oplossen','Corrected synthetic identity: last 4':'Gecorrigeerde synthetische identiteit: laatste 4','Reason / evidence reviewed':'Reden / beoordeeld bewijs','Confirm action':'Actie bevestigen',
+ 'Processing':'Bezig','Photos needed':'Foto’s nodig','Data correction':'Gegevenscorrectie','Refund approval':'Goedkeuring terugbetaling','Manual review':'Handmatige beoordeling','Roadtax refunded':'Wegenbelasting terugbetaald',
+ 'Vehicle photos are required.':'Voertuigfoto’s zijn vereist.','Confirm photo receipt':'Ontvangst foto’s bevestigen','Owner information needs correction.':'Eigenaarsgegevens moeten worden gecorrigeerd.','Correct & continue':'Corrigeren en doorgaan',
+ 'Roadtax refund needs approval.':'Terugbetaling van wegenbelasting vereist goedkeuring.','Approve roadtax refund':'Terugbetaling goedkeuren','This order needs manual review.':'Deze bestelling vereist handmatige beoordeling.',
+ 'Authorize another retry cycle':'Nieuwe pogingencyclus toestaan','Recovery is in progress.':'Herstel is bezig.','Workflow is processing.':'Workflow wordt verwerkt.','Order completed.':'Bestelling voltooid.','Roadtax refund completed.':'Terugbetaling wegenbelasting voltooid.',
+ 'NEXT SAFE ACTION':'VOLGENDE VEILIGE ACTIE','WORKFLOW STATUS':'WORKFLOWSTATUS','RESOLUTION':'OPLOSSING','Roadtax amount':'Wegenbelasting','Synthetic identity suffix':'Synthetisch identiteitssuffix','Policy reference':'Polisreferentie','Not issued':'Niet uitgegeven','Attempts in current phase':'Pogingen in huidige fase','Refund reference':'Terugbetalingsreferentie','Roadtax reference':'Wegenbelastingreferentie','Audit timeline':'Audit-tijdlijn','Inspect evidence':'Bewijs bekijken','Escalate':'Escaleren',
+ 'Confirm photo receipt':'Ontvangst foto’s bevestigen','Correct owner information':'Eigenaarsgegevens corrigeren','Approve roadtax refund':'Terugbetaling wegenbelasting goedkeuren','Authorize another retry cycle':'Nieuwe pogingencyclus toestaan','Escalate to manual review':'Naar handmatige beoordeling escaleren','Action recorded in the audit trail.':'Actie vastgelegd in het auditspoor.','Test order created. The backend is processing it.':'Testbestelling gemaakt. De backend verwerkt deze.'
+};
+const sourceText = new WeakMap(), sourceAttrs = new WeakMap();
+function translated(value){
+ const trimmed=value.trim(); let result=nl[trimmed];
+ if(!result){let m=trimmed.match(/^(\d+) of (\d+) loaded orders$/);if(m)result=`${m[1]} van ${m[2]} geladen bestellingen`;}
+ if(!result){let m=trimmed.match(/^(\d+) orders$/);if(m)result=`${m[1]} bestellingen`;}
+ if(!result){let m=trimmed.match(/^(\d+) events · v(\d+)$/);if(m)result=`${m[1]} gebeurtenissen · v${m[2]}`;}
+ return result?value.replace(trimmed,result):value;
+}
+function localize(root=document){
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let node;
+ while((node=walker.nextNode())){if(!sourceText.has(node))sourceText.set(node,node.nodeValue);node.nodeValue=currentLanguage==='nl'?translated(sourceText.get(node)):sourceText.get(node);}
+ root.querySelectorAll?.('[placeholder],[title],[aria-label]').forEach(el=>{let attrs=sourceAttrs.get(el);if(!attrs){attrs={};for(const a of ['placeholder','title','aria-label'])if(el.hasAttribute(a))attrs[a]=el.getAttribute(a);sourceAttrs.set(el,attrs);}for(const [a,v] of Object.entries(attrs))el.setAttribute(a,currentLanguage==='nl'?(nl[v]||v):v);});
+ document.documentElement.lang=currentLanguage;
+ $$('[data-language]').forEach(b=>b.classList.toggle('active',b.dataset.language===currentLanguage));
+}
+let currentLanguage=localStorage.getItem('orderflow-language')==='nl'?'nl':'en';
+$$('[data-language]').forEach(b=>b.addEventListener('click',()=>{currentLanguage=b.dataset.language;localStorage.setItem('orderflow-language',currentLanguage);localize();}));
+new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)if(node.nodeType===1)localize(node);}).observe(document.body,{childList:true,subtree:true});
+localize();
