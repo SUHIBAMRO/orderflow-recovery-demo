@@ -10,7 +10,7 @@ def main():
     os.environ.setdefault("PROVIDER_TOKEN", secrets.token_urlsafe(36))
     port = int(os.environ.get("PORT", "8080"))
     run(port=port, provider_port=int(os.environ.get("PROVIDER_PORT", str(port + 1))),
-        data=os.environ.get("DATA_DIR", str(Path.cwd() / "data")))
+        data=os.environ.get("DATA_DIR", str(Path.cwd() / "data")), host="0.0.0.0")
 
 
 if __name__ == "__main__":
