@@ -1,69 +1,66 @@
 # OrderFlow Recovery
 
-Working **synthetic** order-recovery prototype, with an operations console, durable business state, real local HTTP provider simulation, bounded retries, human actions, role-gated roadtax refunds and audit evidence.
+A working synthetic insurance order-recovery prototype. It detects where a multi-step order failed, applies explicit recovery rules, performs bounded retries, routes human actions, prevents duplicate side effects, and preserves an audit trail.
 
-**Status:** 25 portable/core and real-HTTP tests passed during creation. JavaScript syntax and Python compilation passed. Full Docker/FastAPI/PostgreSQL/Temporal deployment and browser visual QA are **not yet verified**. No public deployment or GitHub repository was created.
+## Live demo
 
-`railway.json` and `Dockerfile.demo` provide a lightweight public mode that opens without a token. It runs SQLite plus synthetic local HTTP provider APIs and is explicitly not the full Temporal/PostgreSQL stack. Public visitors share synthetic data; never enter real information.
+Open the public sandbox: **https://orderflow-public-demo-production.up.railway.app/**
 
-## ابدأ من هنا
+No installation or access token is required. English is the default language; select **NL** in the header for Dutch. All customers, policies, payments, provider responses, and refunds are synthetic. Never enter real personal information.
 
-هذه نسخة أولى قابلة للتجربة من نظام معالجة طلبات التأمين المتعطلة. الواجهة مرتبطة بـbackend، والحالات والأحداث محفوظة فعلًا. خدمات التأمين وJPJ والدفع والإشعارات **تجريبية** ولا تتعامل مع مال أو وثائق حقيقية.
+## What is implemented
 
-**ما اختُبر:** 25 اختبارًا لمنطق المعالجة وواجهات HTTP، تشمل منع التكرار، الاستكمال بعد تصحيح البيانات، صلاحيات الاسترجاع، واستعادة الحالة بعد الفشل.
+- Persistent workflow state and append-only application audit events
+- Synthetic payment, insurer, JPJ, and notification HTTP APIs
+- Explicit recovery rules for data mismatch, missing photos, blacklist, timeouts, and unknown responses
+- Bounded retry timing and retry-budget exhaustion
+- Idempotency keys that prevent duplicate policy issuance and refunds
+- Version-checked operator actions and role-gated refunds
+- Operations console, scenario lab, and recovery-rule reference
+- English and Dutch user interface
 
-**ما لم يُختبر هنا:** تشغيل Docker وPostgreSQL وTemporal معًا، والفحص البصري داخل المتصفح. تفسير النصوص قاعدة بسيطة معلنة، وليس نموذج ذكاء اصطناعي. لا تستخدم المشروع مع عملاء حقيقيين قبل إكمال المراجعة والتكامل والحماية.
+The public deployment uses SQLite and local synthetic provider APIs. The repository also includes a production-oriented FastAPI, PostgreSQL, and Temporal configuration. External BJAK, insurer, JPJ, payment, and notification integrations are not included.
 
-### تجربة سريعة — Python فقط
+## Run locally
 
-تحتاج Python 3.11 أو أحدث على الكمبيوتر. فك الضغط، افتح الطرفية داخل مجلد المشروع، ثم:
+Python 3.11 or newer is required.
 
 ```sh
 python scripts/setup_env.py
 python scripts/run_local.py
 ```
 
-افتح `http://127.0.0.1:8080` في متصفح **نفس الكمبيوتر**. افتح ملف `.env` محليًا وانسخ قيمة `OPERATOR_TOKEN` إلى حقل الدخول. لا ترسل هذه القيم في المحادثات ولا تنشرها. للاسترجاع استخدم `SUPERVISOR_TOKEN`.
+Open `http://127.0.0.1:8080` on the same computer. Copy the appropriate role token from the locally generated `.env` file. The operator role can resolve standard exceptions; the supervisor role can approve synthetic roadtax refunds.
 
-هذا الوضع يشغّل قاعدة SQLite وخدمات HTTP تجريبية بنفس منطق المعالجة، لكنه **لا يشغّل Temporal**. البيانات تبقى داخل `data/` بعد إعادة التشغيل. لإيقافه استخدم Ctrl+C.
+This lightweight mode stores data in `data/` and does not run Temporal. Stop it with `Ctrl+C`.
 
-### تشغيل الحزمة الكاملة — Docker
+## Run the full stack
 
-تحتاج Docker مع Compose v2. بعد إنشاء `.env` بالأمر السابق:
+Docker with Compose v2 is required.
 
 ```sh
+python scripts/setup_env.py
 docker compose up --build -d
 python scripts/smoke_compose.py
 ```
 
-افتح نفس عنوان الواجهة. هذا المسار يشغّل FastAPI وPostgreSQL وTemporal وخدمة المحاكاة. سكربت الفحص يختبر السيناريوهات والاستكمال بعد إعادة تشغيل العامل. **أُرفق السكربت ولكنه لم يُشغّل في بيئة الإنشاء لعدم توفر Docker.** أول تشغيل يحتاج اتصالًا لتنزيل الصور والحزم.
-
-إذا كنت تشغّل الوضع السريع، أوقفه قبل Docker لأن كليهما يستخدم المنفذ 8080. لإيقاف حاويات التجربة مع الاحتفاظ بالبيانات:
+The full stack runs FastAPI, PostgreSQL, Temporal, a worker, and synthetic provider services. Stop the containers while preserving volumes with:
 
 ```sh
 docker compose down
 ```
 
-## Quick start (English)
+## Recommended demo walkthrough
 
-Python-only verification: run `python scripts/setup_env.py`, then `python scripts/run_local.py`. Open `http://127.0.0.1:8080` on the same computer and sign in with a role token from local `.env`. This runs the same decision engine with SQLite and real synthetic HTTP endpoints, **not Temporal**.
+1. Open **Scenario lab** and run **Owner data mismatch**.
+2. Return to the queue and inspect why the roadtax step stopped.
+3. Select **Correct & continue**, enter four synthetic digits, and record an audit note.
+4. Observe the same workflow resume and complete without reissuing the policy.
+5. Run **Temporary insurer outage** to observe bounded retries and recovery.
+6. Run **Lost acknowledgement** to see idempotent reconciliation return the existing policy.
+7. Run **Blacklist → refund** to demonstrate explicit approval of a roadtax-only synthetic refund.
 
-Full deployment: run `docker compose up --build -d`, then `python scripts/smoke_compose.py`. This stack was prepared, not executed in the creation environment. Never expose it publicly or handle real customer data without the hardening work listed in `docs/ARCHITECTURE.md`.
-
-## Demo walkthrough / سيناريو العرض
-
-1. **Owner mismatch:** create a test order → wait for Data correction → inspect evidence → Correct & continue → enter four synthetic digits and an audit note → observe Completed. The policy reference stays unchanged.
-   **اختلاف البيانات:** أنشئ طلبًا، افحص سبب التوقف، صحّح آخر أربع خانات تجريبية واكتب سبب الإجراء. يكمل الطلب دون إصدار التأمين مرة ثانية.
-2. **Temporary outage:** create an Insurer timeout order → observe two scheduled retries → third call succeeds.
-   **عطل مؤقت:** شاهد محاولتي الانتظار ثم نجاح المحاولة الثالثة.
-3. **Lost acknowledgement:** the mock issues the policy before losing its response. The next call returns the same policy reference, rather than creating another policy.
-   **ضياع الرد:** تصدر الوثيقة تجريبيًا، ثم تضيع الاستجابة؛ الاستعادة تعيد نفس المرجع ولا تنشئ وثيقة ثانية.
-4. **Blacklist:** observe Refund approval. An operator cannot approve. Sign out, use the supervisor token, select the order and authorize the roadtax-only refund.
-   **الحظر:** تنشأ حالة انتظار موافقة استرجاع. حساب المشغّل لا يستطيع الموافقة. المشرف يوافق على مبلغ ضريبة المركبة فقط دون إلغاء التأمين.
-5. **Missing photos:** synthetic notification is recorded, then the order waits for an operator's receipt confirmation. This is not real upload/verification.
-   **الصور الناقصة:** يُسجل طلب إشعار تجريبي، ثم ينتظر النظام تأكيد المشغّل. رفع الصور وفحصها الحقيقي ليسا ضمن هذه النسخة.
-
-## Tests / الاختبارات
+## Verification
 
 ```sh
 python -m unittest discover -s tests -v
@@ -71,26 +68,18 @@ python -m compileall -q orderflow scripts tests
 node --check web/app.js
 ```
 
-Node is needed only for the last JavaScript syntax check, not to run the UI. The Python tests use temporary databases and synthetic identities; no external accounts or paid APIs are called.
+The suite contains 25 tests covering workflow recovery, HTTP behavior, authorization, idempotency, restart recovery, duplicate callbacks, and refund safety. See `docs/VALIDATION.md` for the verification boundary and `docs/ARCHITECTURE.md` for the architecture and limitations.
 
-See `docs/VALIDATION.md` for the actual verification boundary and `docs/ARCHITECTURE.md` for guarantees and limitations.
-
-## API contract
-
-All `/api/*` requests require `Authorization: Bearer <role token>`. POST order/action requests also require a client-generated `Idempotency-Key`. FastAPI exposes its generated OpenAPI at `/openapi.json` when the full stack runs.
+## API summary
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /api/session` | Current demo role and runtime mode |
-| `GET /api/orders` | Latest 500 persisted orders |
-| `POST /api/orders` | Create a synthetic order; duplicate keys return the original |
-| `GET /api/orders/{id}` | Current order and append-only application audit events |
-| `POST /api/orders/{id}/actions/{action}` | Version-checked, role-checked operator command |
-| `POST /api/classify` | Read-only deterministic text interpretation, not an LLM |
-| `GET /healthz` | API/database readiness; not worker readiness |
+| `GET /api/session` | Return the current role and runtime mode |
+| `GET /api/orders` | List persisted synthetic orders |
+| `POST /api/orders` | Create an idempotent synthetic order |
+| `GET /api/orders/{id}` | Return an order and its audit events |
+| `POST /api/orders/{id}/actions/{action}` | Execute a version-checked operator command |
+| `POST /api/classify` | Run read-only deterministic text interpretation |
+| `GET /healthz` | Report API and database readiness |
 
-Actions: `confirm_photos`, `correct_owner`, `approve_refund`, `retry`, `escalate`.
-
-Action JSON includes `expected_version` and an 8–500 character `note`; correction also requires `owner_last4`. Creation supports `scenario`, `customer`, `vehicle`, `owner_last4`, `roadtax_cents`. Currency is fixed to MYR; amounts are integer cents.
-
-This is an independent prototype, not a BJAK product, approved integration or compliance certification.
+This is an independent portfolio prototype. It is not a BJAK product, approved integration, compliance certification, or legal statement of BJAK or JPJ policy.
