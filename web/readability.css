@@ -1,0 +1,15 @@
+/* Comfortable operational text; small type is restricted to secondary metadata. */
+.brand small{font-size:10px;letter-spacing:1px}
+.rail-note .overline,.rail-note small,.profile small,.profile strong{font-size:12px}
+.page-heading p,.boundary p,.classifier p,.scenario-card p,.detail-empty p{font-size:16px}
+.overline,.stats small,.queue-footer,.main-footer,.main-footer b,.scenario-card .scenario-number{font-size:12px}
+.pill{font-size:12px;white-space:normal}
+.stats span,.text-button,.search input,.filters select,.order-row h3,.order-row p,.row-bottom,.row-bottom .reason,.detail-header p,.step,.action-box p,.action-buttons .button,.facts dd,.section-title h3,.event-head strong{font-size:14px}
+.order-id,.facts dt,.section-title span,.timeline small,.timeline details,.timeline pre,.event-head time,.mini-flow,.action-box .overline{font-size:12px}
+label:not(.search),.form-note{font-size:14px!important}
+.row-top{flex-wrap:wrap}
+.event-head{flex-wrap:wrap}
+.order-row .row-bottom{align-items:flex-start}
+.row-bottom .reason{overflow-wrap:anywhere}
+.step{flex-wrap:wrap}
+@media(max-width:650px){.nav-item,.environment .pill{font-size:12px}.brand small{font-size:12px}.queue-footer{gap:12px}.detail-title{flex-wrap:wrap}.stats span{font-size:14px}}
