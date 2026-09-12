@@ -4,7 +4,7 @@ A working synthetic insurance order-recovery prototype. It detects where a multi
 
 ## Live demo
 
-Open the public sandbox: **https://orderflow-public-demo-production.up.railway.app/**
+Open the public sandbox: **https://orderflow-demo-production.up.railway.app/**
 
 No installation or access token is required. English is the default language; select **NL** in the header for Dutch. All customers, policies, payments, provider responses, and refunds are synthetic. Never enter real personal information.
 
