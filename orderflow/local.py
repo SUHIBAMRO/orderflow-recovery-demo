@@ -17,7 +17,7 @@ from .providers import HttpGateway, MockGateway
 from .service import OrderService
 
 
-def run(port=8080, provider_port=8081, data="data"):
+def run(port=8080, provider_port=8081, data="data", host="127.0.0.1"):
     validate_tokens()
     provider_token = os.environ.setdefault("PROVIDER_TOKEN", secrets.token_urlsafe(32))
     db = Database("sqlite:///" + str(Path(data) / "orders.db"))
@@ -122,10 +122,10 @@ def run(port=8080, provider_port=8081, data="data"):
                 logging.exception("Tick failed; persisted state will be retried")
 
     providers = ThreadingHTTPServer(("127.0.0.1", provider_port), Handler)
-    server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    server = ThreadingHTTPServer((host, port), Handler)
     threading.Thread(target=providers.serve_forever, daemon=True).start()
     threading.Thread(target=pump, daemon=True).start()
-    print(f"OrderFlow local verification: http://127.0.0.1:{port} (synthetic only)", flush=True)
+    print(f"OrderFlow verification server listening on {host}:{port} (synthetic only)", flush=True)
     try:
         server.serve_forever()
     finally:
