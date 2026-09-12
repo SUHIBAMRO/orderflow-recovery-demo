@@ -7,6 +7,7 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/readability.css">
+  <link rel="stylesheet" href="/assets/language.css">
   <script src="/assets/app.js" defer></script>
 </head>
 <body>
@@ -19,7 +20,7 @@
       <div class="profile"><span class="avatar">OP</span><div><strong id="actor">Not signed in</strong><small id="role">Access token required</small></div><button id="signout" class="icon-button" title="Sign out" aria-label="Sign out">↪</button></div>
     </aside>
     <main>
-      <header class="topbar"><div>Operations <span>/</span> <strong id="breadcrumb">Order queue</strong></div><div class="environment"><span class="status-dot"></span><span id="connection">Disconnected</span><span class="pill neutral">SANDBOX</span></div></header>
+      <header class="topbar"><div>Operations <span>/</span> <strong id="breadcrumb">Order queue</strong></div><div class="topbar-actions"><div class="language-switch" aria-label="Language"><button type="button" data-language="en" class="active">EN</button><button type="button" data-language="nl">NL</button></div><div class="environment"><span class="status-dot"></span><span id="connection">Disconnected</span><span class="pill neutral">SANDBOX</span></div></div></header>
       <section id="queue-view" class="view">
         <div class="page-heading"><div><div class="overline">EXCEPTION MANAGEMENT</div><h1>Keep every order moving.</h1><p>Find the blocker. Take the next safe action.</p></div><button class="button primary" id="new-order">＋ Create test order</button></div>
         <div class="stats" aria-label="Live queue totals"><article><span>Open orders</span><strong id="stat-open">0</strong><small>Across the loaded queue</small></article><article><span>Needs intervention</span><strong id="stat-action">0</strong><small>Waiting on a person</small></article><article><span>Automatic retries</span><strong id="stat-retry">0</strong><small>Scheduled, with backoff</small></article><article><span>Resolved</span><strong id="stat-done">0</strong><small>Completed or roadtax refunded</small></article></div>
